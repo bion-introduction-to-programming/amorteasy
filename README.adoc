@@ -1,271 +1,234 @@
+:spring_version: current
 :toc:
+:project_id: gs-rest-service
 :icons: font
 :source-highlighter: prettify
-:project_id: gs-crud-with-vaadin
 
-This guide walks you through the process of building an application that uses a
-https://vaadin.com[Vaadin-based UI] on a Spring Data JPA based backend.
+This guide walks you through the process of creating a "`Hello, World`" RESTful web
+service with Spring.
 
-== What You Will build
+== What You Will Build
 
-You will build a Vaadin UI for a simple JPA repository. What you will get is an
-application with full CRUD (Create, Read, Update, and Delete) functionality and a
-filtering example that uses a custom repository method.
+You will build a service that will accept HTTP GET requests at
+`http://localhost:8080/greeting`.
 
-You can follow either of two different paths:
+It will respond with a JSON representation of a greeting, as the following listing shows:
 
-* Starting from the `initial` project that is already in the project.
-* Making a fresh start.
+====
+[source,json]
+----
+{"id":1,"content":"Hello, World!"}
+----
+====
 
-The differences are discussed later in this document.
+You can customize the greeting with an optional `name` parameter in the query string, as
+the following listing shows:
+
+====
+[source,text]
+----
+http://localhost:8080/greeting?name=User
+----
+====
+
+The `name` parameter value overrides the default value of `World` and is reflected in the
+response, as the following listing shows:
+
+====
+[source,json]
+----
+{"id":1,"content":"Hello, User!"}
+----
+====
 
 == What You Need
 
-:java_version: 17
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/prereq_editor_jdk_buildtools.adoc[]
-
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/how_to_complete_this_guide.adoc[]
 
 [[scratch]]
 == Starting with Spring Initializr
 
-You can use this https://start.spring.io/#!type=maven-project&language=java&packaging=jar&jvmVersion={java_version}&groupId=com.example&artifactId=crud-with-vaadin&name=crud-with-vaadin&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.crud-with-vaadin&dependencies=vaadin,data-jpa,h2[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
+You can use this https://start.spring.io/#!type=maven-project&groupId=com.example&artifactId=rest-service&name=rest-service&description=Demo%20project%20for%20Spring%20Boot&packageName=com.example.rest-service&dependencies=web[pre-initialized project] and click Generate to download a ZIP file. This project is configured to fit the examples in this tutorial.
 
-NOTE: You can also fork the project from Github and open it in your IDE or other editor.
-
-=== Manual Initialization (optional)
-
-If you want to initialize the project manually rather than use the links shown earlier, follow the steps given below:
+To manually initialize the project:
 
 . Navigate to https://start.spring.io.
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
 . Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java.
-. Click *Dependencies* and select *Vaadin*, *Spring Data JPA* and *H2 Database*.
+. Click *Dependencies* and select *Spring Web*.
 . Click *Generate*.
 . Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
 
 NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
 
+NOTE: You can also fork the project from Github and open it in your IDE or other editor.
+
 [[initial]]
-== Create the Backend Services
+== Create a Resource Representation Class
 
-This guide is a continuation from https://spring.io/guides/gs/accessing-data-jpa[Accessing Data with JPA].
-The only differences are that the entity class has getters and setters and the custom
-search method in the repository is a bit more graceful for end users. You need not read
-that guide to walk through this one, but you can if you wish.
+Now that you have set up the project and build system, you can create your web service.
 
-If you started with a fresh project, you need to add entity and repository objects. If you
-started from the `initial` project, these object already exist.
+Begin the process by thinking about service interactions.
 
-The following listing (from `src/main/java/com/example/crudwithvaadin/Customer.java`)
-defines the customer entity:
+The service will handle `GET` requests for `/greeting`, optionally with a `name` parameter
+in the query string. The `GET` request should return a `200 OK` response with JSON in the
+body that represents a greeting. It should resemble the following output:
 
 ====
-[source,java]
+[source,json]
 ----
-include::complete/src/main/java/com/example/crudwithvaadin/Customer.java[]
-----
-====
-
-The following listing (from
-`src/main/java/com/example/crudwithvaadin/CustomerRepository.java`) defines the customer
-repository:
-
-====
-[source,java]
-----
-include::complete/src/main/java/com/example/crudwithvaadin/CustomerRepository.java[]
-----
-====
-
-The following listing (from
-`src/main/java/com/example/crudwithvaadin/CrudWithVaadinApplication.java`) shows the
-application class, which creates some data for you:
-
-====
-[source,java]
-----
-include::complete/src/main/java/com/example/crudwithvaadin/CrudWithVaadinApplication.java[]
-----
-====
-
-== Vaadin Dependencies
-
-If you checked out the `initial` project, or you created your project with initializr,
-you have all necessary dependencies already set up.
-However, the rest of this section describes how to add Vaadin support to a fresh
-Spring project. Spring's Vaadin integration contains a Spring Boot starter dependency
-collection, so you need add only the following Maven snippet (or a corresponding Gradle
-configuration):
-
-====
-[source,xml,indent=0]
-----
-include::complete/pom.xml[tag=starter]
-----
-====
-
-The example uses a newer version of Vaadin than the default one brought in by the starter
-module. To use a newer version, define the Vaadin Bill of Materials (BOM) as follows:
-
-====
-[source,xml,indent=0]
-----
-include::complete/pom.xml[tag=bom]
-----
-====
-
-In developer mode, the dependency is enough, but When you are building for production,
-you need to enable your app for https://vaadin.com/docs/latest/production/production-build#enabling-production-builds[production builds].
-
-TIP: By default, Gradle does not support BOMs, but there is a handy
-https://plugins.gradle.org/plugin/io.spring.dependency-management[plugin for that]. Check out the
-https://github.com/spring-guides/gs-crud-with-vaadin/blob/main/complete/build.gradle[`build.gradle` build file for an example of how to accomplish the same thing].
-
-== Define the Main View class
-
-The main view class (called `MainView` in this guide) is the entry point for Vaadin's UI
-logic. In Spring Boot applications, if you annotate it with `@Route`, it is automatically
-picked up and shown at the root of your web application. You can customize the URL where
-the view is shown by giving a parameter to the `@Route` annotation. The following listing
-(from the `initial` project at
-`src/main/java/com/example/crudwithvaadin/MainView.java`) shows a simple "`Hello, World`"
-view:
-
-====
-[source,java]
-----
-include::initial/src/main/java/com/example/crudwithvaadin/MainView.java[]
-----
-====
-
-== List Entities in a Data Grid
-
-For a nice layout, you can use the `Grid` component. You can pass the list of entities
-from a constructor-injected `CustomerRepository` to the `Grid` by using the `setItems`
-method. The body of your `MainView` would then be as follows:
-
-====
-[source,java]
-----
-@Route
-public class MainView extends VerticalLayout {
-
-	private final CustomerRepository repo;
-	final Grid<Customer> grid;
-
-	public MainView(CustomerRepository repo) {
-		this.repo = repo;
-		this.grid = new Grid<>(Customer.class);
-		add(grid);
-		listCustomers();
-	}
-
-	private void listCustomers() {
-		grid.setItems(repo.findAll());
-	}
-
+{
+    "id": 1,
+    "content": "Hello, World!"
 }
 ----
 ====
 
-TIP: If you have large tables or lots of concurrent users, you most likely do not want
-to bind the whole dataset to your UI components. +
-Although Vaadin Grid lazy loads the data from the server to the browser, the preceding
-approach keeps the whole list of data in the server memory. To save some memory, you could
-show only the topmost results by employing paging or using lazy loading, for examply using the `grid.setItems(VaadinSpringDataHelpers.fromPagingRepository(repo))` method.
+The `id` field is a unique identifier for the greeting, and `content` is the textual
+representation of the greeting.
 
-== Filtering the Data
+To model the greeting representation, create a resource representation class. To do so,
+provide a Java record class for the `id` and `content` data, as the following listing (from
+`src/main/java/com/example/restservice/Greeting.java`) shows:
 
-Before the large data set becomes a problem to your server, it is likely to cause a
-headache for your users as they try to find the relevant row to edit. You can use a
-`TextField` component to create a filter entry. To do so, first modify the
-`listCustomer()` method to support filtering. The following example (from the `complete`
-project in `src/main/java/com/example/crudwithvaadin/MainView.java`) shows how to do so:
+[source,java]
+----
+include::complete/src/main/java/com/example/restservice/Greeting.java[]
+----
 
 ====
-[source,java,indent=0]
-----
-include::complete/src/main/java/com/example/crudwithvaadin/MainView.java[tag=listCustomers]
-----
+NOTE: This application uses the https://github.com/FasterXML/jackson[Jackson JSON] library to
+automatically marshal instances of type `Greeting` into JSON. Jackson is included by default by the web starter.
 ====
 
-NOTE: This is where Spring Data's declarative queries come in handy. Writing
-`findByLastNameStartsWithIgnoringCase` is a single line definition in the
-`CustomerRepository` interface.
+== Create a Resource Controller
 
-You can hook a listener to the `TextField` component and plug its value into that filter
-method. The `ValueChangeListener` is called automatically as a user types because you
-define the `ValueChangeMode.LAZY` on the filter text field. The following example shows
-how to set up such a listener:
+In Spring's approach to building RESTful web services, HTTP requests are handled by a
+controller. These components are identified by the
+https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/RestController.html[`@RestController`]
+annotation, and the `GreetingController` shown in the following listing (from
+`src/main/java/com/example/restservice/GreetingController.java`) handles `GET` requests
+for `/greeting` by returning a new instance of the `Greeting` class:
 
 ====
 [source,java]
 ----
-TextField filter = new TextField();
-filter.setPlaceholder("Filter by last name");
-filter.setValueChangeMode(ValueChangeMode.LAZY);
-filter.addValueChangeListener(e -> listCustomers(e.getValue()));
-add(filter, grid);
+include::complete/src/main/java/com/example/restservice/GreetingController.java[]
 ----
 ====
 
-== Define the Editor Component
+This controller is concise and simple, but there is plenty going on under the hood. We
+break it down step by step.
 
-As Vaadin UIs are plain Java code, you can write re-usable code from the beginning. To do
-so, define an editor component for your `Customer` entity. You can make it be a
-Spring-managed bean so that you can directly inject the `CustomerRepository` into the
-editor and tackle the Create, Update, and Delete parts or your CRUD functionality. The
-following example (from `src/main/java/com/example/crudwithvaadin/CustomerEditor.java`)
-shows how to do so:
+The `@GetMapping` annotation ensures that HTTP GET requests to `/greeting` are mapped to the `greeting()` method.
+
+NOTE: There are companion annotations for other HTTP verbs (e.g. `@PostMapping` for POST). There is also a `@RequestMapping` annotation that they all derive from, and can serve as a synonym (e.g. `@RequestMapping(method=GET)`).
+
+`@RequestParam` binds the value of the query string parameter `name` into the `name`
+parameter of the `greeting()` method. If the `name` parameter is absent in the request,
+the `defaultValue` of `World` is used.
+
+The implementation of the method body creates and returns a new `Greeting` object with
+`id` and `content` attributes based on the next value from the `counter` and formats the
+given `name` by using the greeting `template`.
+
+A key difference between a traditional MVC controller and the RESTful web service
+controller shown earlier is the way that the HTTP response body is created. Rather than
+relying on a view technology to perform server-side rendering of the greeting data to
+HTML, this RESTful web service controller populates and returns a `Greeting` object. The
+object data will be written directly to the HTTP response as JSON.
+
+This code uses Spring
+https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/bind/annotation/RestController.html[`@RestController`]
+annotation, which marks the class as a controller where every method returns a domain
+object instead of a view. It is shorthand for including both `@Controller` and
+`@ResponseBody`.
+
+The `Greeting` object must be converted to JSON. Thanks to Spring's HTTP message converter
+support, you need not do this conversion manually. Because
+https://github.com/FasterXML/jackson[Jackson 2] is on the classpath, Spring's
+https://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html[`MappingJackson2HttpMessageConverter`]
+is automatically chosen to convert the `Greeting` instance to JSON.
+
+== Run the Service
+
+The Spring Initializr creates an application class for you. In this case, you do not need
+to further modify the class. The following listing
+(from src/main/java/com/example/restservice/RestServiceApplication.java) shows the
+application class:
 
 ====
 [source,java]
 ----
-include::complete/src/main/java/com/example/crudwithvaadin/CustomerEditor.java[]
+include::complete/src/main/java/com/example/restservice/RestServiceApplication.java[]
 ----
 ====
 
-In a larger application, you could then use this editor component in multiple places. Also
-note that, in large applications, you might want to apply some common patterns (such as
-MVP) to structure your UI code.
-
-== Wire the Editor
-
-In the previous steps, you have already seen some basics of component-based programming.
-By using a `Button` and adding a selection listener to `Grid`, you can fully integrate
-your editor into the main view. The following listing (from
-`src/main/java/com/example/crudwithvaadin/MainView.java`) shows the final version of the
-`MainView` class:
-
-====
-[source,java]
-----
-include::complete/src/main/java/com/example/crudwithvaadin/MainView.java[]
-----
-====
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/spring-boot-application-new-path.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_subhead.adoc[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_with_both.adoc[]
 
-You can see your Vaadin application running at http://localhost:8080
+Logging output is displayed. The service should be up and running within a few seconds.
+
+
+== Test the Service
+
+Now that the service is up, visit `http://localhost:8080/greeting`, where you should see:
+
+====
+[source,json]
+----
+{"id":1,"content":"Hello, World!"}
+----
+====
+
+Provide a `name` query string parameter by visiting
+`http://localhost:8080/greeting?name=User`. Notice how the value of the `content`
+attribute changes from `Hello, World!` to `Hello, User!`, as the following listing shows:
+
+====
+[source,json]
+----
+{"id":2,"content":"Hello, User!"}
+----
+====
+
+This change demonstrates that the `@RequestParam` arrangement in `GreetingController` is
+working as expected. The `name` parameter has been given a default value of `World` but
+can be explicitly overridden through the query string.
+
+Notice also how the `id` attribute has changed from `1` to `2`. This proves that you are
+working against the same `GreetingController` instance across multiple requests and that
+its `counter` field is being incremented on each call as expected.
 
 == Summary
 
-Congratulations! You have written a full-featured CRUD UI application by using Spring Data
-JPA for persistence. And you did it without exposing any REST services or having to write
-a single line of JavaScript or HTML.
+Congratulations! You have just developed a RESTful web service with Spring.
 
 == See Also
 
 The following guides may also be helpful:
 
-* https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
-* https://spring.io/guides/gs/accessing-data-jpa/[Accessing Data with JPA]
-* https://spring.io/guides/gs/accessing-data-mongodb/[Accessing Data with MongoDB]
-* https://spring.io/guides/gs/accessing-data-neo4j/[Accessing Data with Neo4j]
+* https://spring.io/guides/gs/accessing-gemfire-data-rest/[Accessing GemFire Data with REST]
+* https://spring.io/guides/gs/accessing-mongodb-data-rest/[Accessing MongoDB Data with REST]
 * https://spring.io/guides/gs/accessing-data-mysql/[Accessing data with MySQL]
+* https://spring.io/guides/gs/accessing-data-rest/[Accessing JPA Data with REST]
+* https://spring.io/guides/gs/accessing-neo4j-data-rest/[Accessing Neo4j Data with REST]
+* https://spring.io/guides/gs/consuming-rest/[Consuming a RESTful Web Service]
+* https://spring.io/guides/gs/consuming-rest-angularjs/[Consuming a RESTful Web Service with AngularJS]
+* https://spring.io/guides/gs/consuming-rest-jquery/[Consuming a RESTful Web Service with jQuery]
+* https://spring.io/guides/gs/consuming-rest-restjs/[Consuming a RESTful Web Service with rest.js]
+* https://spring.io/guides/gs/securing-web/[Securing a Web Application]
+* https://spring.io/guides/tutorials/rest/[Building REST services with Spring]
+* https://spring.io/guides/tutorials/react-and-spring-data-rest/[React.js and Spring Data REST]
+* https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
+* https://spring.io/guides/gs/testing-restdocs/[Creating API Documentation with Restdocs]
+* https://spring.io/guides/gs/rest-service-cors/[Enabling Cross Origin Requests for a RESTful Web Service]
+* https://spring.io/guides/gs/rest-hateoas/[Building a Hypermedia-Driven RESTful Web Service]
+* https://spring.io/guides/gs/circuit-breaker/[Circuit Breaker]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
