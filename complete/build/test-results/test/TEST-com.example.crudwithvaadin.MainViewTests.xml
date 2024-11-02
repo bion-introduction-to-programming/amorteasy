@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.crudwithvaadin.MainViewTests" tests="5" skipped="0" failures="0" errors="0" timestamp="2024-11-01T15:26:26" hostname="kaharman.local" time="0.189">
+  <properties/>
+  <testcase name="shouldInitializeWithInvisibleEditor()" classname="com.example.crudwithvaadin.MainViewTests" time="0.088"/>
+  <testcase name="shouldFillOutTheGridWithNewData()" classname="com.example.crudwithvaadin.MainViewTests" time="0.032"/>
+  <testcase name="shouldInitializeTheGridWithCustomerRepositoryData()" classname="com.example.crudwithvaadin.MainViewTests" time="0.025"/>
+  <testcase name="shouldMakeEditorVisible()" classname="com.example.crudwithvaadin.MainViewTests" time="0.018"/>
+  <testcase name="shouldFilterOutTheGridWithTheProvidedLastName()" classname="com.example.crudwithvaadin.MainViewTests" time="0.02"/>
+  <system-out><![CDATA[
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.1)
+
+2024-11-01T22:26:26.506+07:00  INFO 32176 --- [    Test worker] c.example.crudwithvaadin.MainViewTests   : Starting MainViewTests using Java 23.0.1 with PID 32176 (started by kaharman in /Users/kaharman/workspace/bion/gs-crud-with-vaadin/complete)
+2024-11-01T22:26:26.506+07:00  INFO 32176 --- [    Test worker] c.example.crudwithvaadin.MainViewTests   : No active profile set, falling back to 1 default profile: "default"
+2024-11-01T22:26:26.650+07:00  INFO 32176 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-01T22:26:26.665+07:00  INFO 32176 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 14 ms. Found 1 JPA repository interface.
+2024-11-01T22:26:26.745+07:00  INFO 32176 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2024-11-01T22:26:26.747+07:00  INFO 32176 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn10: url=jdbc:h2:mem:fa15c83a-b258-48df-95e4-8c3ee215f843 user=SA
+2024-11-01T22:26:26.747+07:00  INFO 32176 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2024-11-01T22:26:26.749+07:00  INFO 32176 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-01T22:26:26.751+07:00  INFO 32176 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-01T22:26:26.756+07:00  INFO 32176 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-01T22:26:26.785+07:00  INFO 32176 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-01T22:26:26.787+07:00  INFO 32176 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-01T22:26:26.868+07:00  WARN 32176 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-01T22:26:26.956+07:00  INFO 32176 --- [    Test worker] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereHandler com.vaadin.hilla.push.PushEndpoint mapped to context-path: /HILLA/push
+2024-11-01T22:26:26.956+07:00  INFO 32176 --- [    Test worker] org.atmosphere.cpr.AtmosphereFramework   : Installed the following AtmosphereInterceptor mapped to AtmosphereHandler com.vaadin.hilla.push.PushEndpoint
+2024-11-01T22:26:26.956+07:00  INFO 32176 --- [    Test worker] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.AtmosphereResourceLifecycleInterceptor : Atmosphere LifeCycle
+2024-11-01T22:26:26.956+07:00  INFO 32176 --- [    Test worker] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.client.TrackMessageSizeInterceptor :  Track Message Size Interceptor using |
+2024-11-01T22:26:26.956+07:00  INFO 32176 --- [    Test worker] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.SuspendTrackerInterceptor : UUID Tracking Interceptor
+2024-11-01T22:26:26.996+07:00  INFO 32176 --- [    Test worker] c.example.crudwithvaadin.MainViewTests   : Started MainViewTests in 0.51 seconds (process running for 6.369)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - MainViewTests</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>MainViewTests</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/com.example.crudwithvaadin.html">com.example.crudwithvaadin</a> &gt; MainViewTests</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">5</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.183s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">shouldFillOutTheGridWithNewData()</td>
+<td class="success">0.032s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">shouldFilterOutTheGridWithTheProvidedLastName()</td>
+<td class="success">0.020s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">shouldInitializeTheGridWithCustomerRepositoryData()</td>
+<td class="success">0.025s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">shouldInitializeWithInvisibleEditor()</td>
+<td class="success">0.088s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">shouldMakeEditorVisible()</td>
+<td class="success">0.018s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.1)
+
+2024-11-01T22:26:26.506+07:00  INFO 32176 --- [    Test worker] c.example.crudwithvaadin.MainViewTests   : Starting MainViewTests using Java 23.0.1 with PID 32176 (started by kaharman in /Users/kaharman/workspace/bion/gs-crud-with-vaadin/complete)
+2024-11-01T22:26:26.506+07:00  INFO 32176 --- [    Test worker] c.example.crudwithvaadin.MainViewTests   : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-11-01T22:26:26.650+07:00  INFO 32176 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-01T22:26:26.665+07:00  INFO 32176 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 14 ms. Found 1 JPA repository interface.
+2024-11-01T22:26:26.745+07:00  INFO 32176 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2024-11-01T22:26:26.747+07:00  INFO 32176 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn10: url=jdbc:h2:mem:fa15c83a-b258-48df-95e4-8c3ee215f843 user=SA
+2024-11-01T22:26:26.747+07:00  INFO 32176 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2024-11-01T22:26:26.749+07:00  INFO 32176 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-01T22:26:26.751+07:00  INFO 32176 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-01T22:26:26.756+07:00  INFO 32176 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-01T22:26:26.785+07:00  INFO 32176 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-01T22:26:26.787+07:00  INFO 32176 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-01T22:26:26.868+07:00  WARN 32176 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-01T22:26:26.956+07:00  INFO 32176 --- [    Test worker] org.atmosphere.cpr.AtmosphereFramework   : Installed AtmosphereHandler com.vaadin.hilla.push.PushEndpoint mapped to context-path: /HILLA/push
+2024-11-01T22:26:26.956+07:00  INFO 32176 --- [    Test worker] org.atmosphere.cpr.AtmosphereFramework   : Installed the following AtmosphereInterceptor mapped to AtmosphereHandler com.vaadin.hilla.push.PushEndpoint
+2024-11-01T22:26:26.956+07:00  INFO 32176 --- [    Test worker] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.AtmosphereResourceLifecycleInterceptor : Atmosphere LifeCycle
+2024-11-01T22:26:26.956+07:00  INFO 32176 --- [    Test worker] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.client.TrackMessageSizeInterceptor :  Track Message Size Interceptor using |
+2024-11-01T22:26:26.956+07:00  INFO 32176 --- [    Test worker] org.atmosphere.cpr.AtmosphereFramework   : 	org.atmosphere.interceptor.SuspendTrackerInterceptor : UUID Tracking Interceptor
+2024-11-01T22:26:26.996+07:00  INFO 32176 --- [    Test worker] c.example.crudwithvaadin.MainViewTests   : Started MainViewTests in 0.51 seconds (process running for 6.369)
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 8.8</a> at 1 Nov 2024, 22.26.27</p>
+</div>
+</div>
+</body>
+</html>

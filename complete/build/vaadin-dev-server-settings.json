@@ -1,0 +1,17 @@
+{
+  "frontendFolder": "/Users/kaharman/workspace/bion/amorteasy/complete/./src/main/frontend",
+  "themeFolder": "themes",
+  "themeResourceFolder": "/Users/kaharman/workspace/bion/amorteasy/complete/./src/main/frontend/generated/jar-resources",
+  "staticOutput": "/Users/kaharman/workspace/bion/amorteasy/complete/build/classes/META-INF/VAADIN/webapp/VAADIN/static",
+  "generatedFolder": "generated",
+  "statsOutput": "/Users/kaharman/workspace/bion/amorteasy/complete/build/classes/META-INF/VAADIN/config",
+  "frontendBundleOutput": "/Users/kaharman/workspace/bion/amorteasy/complete/build/classes/META-INF/VAADIN/webapp",
+  "devBundleOutput": "/Users/kaharman/workspace/bion/amorteasy/complete/build/dev-bundle/webapp",
+  "devBundleStatsOutput": "/Users/kaharman/workspace/bion/amorteasy/complete/build/dev-bundle/config",
+  "jarResourcesFolder": "/Users/kaharman/workspace/bion/amorteasy/complete/./src/main/frontend/generated/jar-resources",
+  "themeName": "",
+  "clientServiceWorkerSource": "/Users/kaharman/workspace/bion/amorteasy/complete/build/sw.ts",
+  "pwaEnabled": false,
+  "offlineEnabled": false,
+  "offlinePath": "'offline.html'"
+}
